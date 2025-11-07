@@ -21,6 +21,7 @@ Coleccion de scripts bash para optimizar, analizar y mantener bases de datos e i
 |--------|-------------|--------|---------|
 | `analisis_odoo.sh` | Genera informe completo de BD y filestore | 2-5 min | Sin downtime |
 | `vacuum_selective.sh` | VACUUM FULL en tablas principales | 1.5-2 hrs | Requiere detener Odoo |
+| `cleanup_orphan_files.sh` | Limpia archivos huérfanos de ir_attachment | 5-15 min | Sin downtime |
 | `vacuum_full_database.sh` | VACUUM FULL completo | 2-4 hrs | Requiere detener Odoo |
 | `odoo_config_parser.sh` | Libreria para parsear configs | - | Libreria |
 
@@ -281,3 +282,25 @@ Para reportar bugs o solicitar features:
 ---
 
 **⭐ Si este proyecto te ayudo, dale una estrella en GitHub!**
+
+### Limpieza de Archivos Huérfanos
+
+```bash
+# Ver qué archivos se limpiarían (modo seguro)
+./cleanup_orphan_files.sh --dry-run
+
+# Ejecutar limpieza con config específico
+./cleanup_orphan_files.sh -c /opt/odoo/conf/odoo.conf
+
+# Limpiar con config auto-detectado
+./cleanup_orphan_files.sh
+```
+
+**Qué hace este script:**
+- Detecta registros en `ir_attachment` sin archivo físico
+- Elimina registros huérfanos de la base de datos
+- Genera reporte detallado de archivos encontrados
+- Soporta modo `--dry-run` para pruebas seguras
+
+**Nota:** Este script es seguro ejecutar con Odoo en funcionamiento (no requiere downtime).
+
