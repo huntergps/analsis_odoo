@@ -249,7 +249,7 @@ if [ -d "$ODOO_FILESTORE" ]; then
     
     print_info "Conteo de archivos por tipo:"
     echo "Analizando archivos... (esto puede tomar unos minutos)" | tee -a "$REPORT_FILE"
-    find "$ODOO_FILESTORE" -type f -exec file --mime-type {} + 2>/dev/null | \\
+    find "$ODOO_FILESTORE" -type f -exec file --mime-type {} + 2>/dev/null |\
         cut -d: -f2 | sort | uniq -c | sort -rn | head -20 | tee -a "$REPORT_FILE"
     echo "" | tee -a "$REPORT_FILE"
     
