@@ -136,7 +136,9 @@ parse_odoo_config() {
     export ODOO_DB_USER=$(get_odoo_config "$config_file" "db_user")
     export ODOO_DB_PASSWORD=$(get_odoo_config "$config_file" "db_password")
     export ODOO_DB_HOST=$(get_odoo_config "$config_file" "db_host")
-    export ODOO_DB_PORT=$(get_odoo_config "$config_file" "db_port")
+    ODOO_DB_PORT=$(get_odoo_config "$config_file" "db_port")
+    [ "$ODOO_DB_PORT" = "False" ] && ODOO_DB_PORT=""
+    export ODOO_DB_PORT
     export ODOO_DATA_DIR=$(get_odoo_config "$config_file" "data_dir")
     export ODOO_LOGFILE=$(get_odoo_config "$config_file" "logfile")
     export ODOO_HTTP_PORT=$(get_odoo_config "$config_file" "http_port")
@@ -198,4 +200,23 @@ show_odoo_config() {
     echo -e "${GREEN}Filestore:${NC}         $ODOO_FILESTORE"
     echo -e "${GREEN}Log Directory:${NC}     $ODOO_LOG_DIR"
     echo ""
+}
+
+# Funcion de conveniencia para auto-detectar y parsear configuracion
+# Usa detect_odoo_config para encontrar el archivo y parse_odoo_config para parsearlo
+auto_detect_config() {
+    local odoo_dir="${1:-/opt/odoo}"
+    
+    # Detectar archivo de configuracion (con menu interactivo si hay multiples)
+    local config_file=$(detect_odoo_config "$odoo_dir" "true")
+    
+    if [ -z "$config_file" ]; then
+        echo -e "${RED}ERROR: No se pudo detectar archivo de configuracion${NC}" >&2
+        return 1
+    fi
+    
+    # Parsear configuracion
+    parse_odoo_config "$config_file"
+    
+    return $?
 }
