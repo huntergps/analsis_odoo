@@ -145,7 +145,7 @@ log_warning "La base de datos estará bloqueada durante todo el proceso"
 echo "" | tee -a "$LOG_FILE"
 read -p "¿Desea continuar? (s/n): " -n 1 -r
 echo ""
-if [[ \! $REPLY =~ ^[SsYy]$ ]]; then
+if [[ ! $REPLY =~ ^[SsYy]$ ]]; then
     log_info "Operación cancelada por el usuario"
     exit 0
 fi
