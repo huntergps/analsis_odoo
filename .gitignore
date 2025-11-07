@@ -1,0 +1,20 @@
+# Log files
+*.log
+
+# Vim swap files
+*.swp
+*~
+
+# macOS files
+.DS_Store
+
+# Editor directories
+.idea/
+.vscode/
+
+# Temporary files
+*.tmp
+*.bak
+
+# Reports (generated files)
+reports/
